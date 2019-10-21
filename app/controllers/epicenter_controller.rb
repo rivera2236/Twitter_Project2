@@ -21,5 +21,9 @@ class EpicenterController < ApplicationController
   end
 
   def unfollow
+    current_user.following.delete(params[:id].to_i)
+    current_user.save
+    redirect_to show_user_path(id: params[:id])   
   end
+
 end
