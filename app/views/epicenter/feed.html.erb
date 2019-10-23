@@ -4,7 +4,7 @@
 	
 <div>	
     <% @following_tweets.each do |tweet| %>	
-        <div>	
+        <div class="well well-sm">	
 	    <p>@<%= tweet.user.username %></p>
 	    <p><%= tweet.message.html_safe %></p>
 	</div>
