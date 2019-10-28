@@ -1,5 +1,9 @@
 class EpicenterController < ApplicationController
 
+  def tag_tweets
+    @tag = Tag.find(params[:id])
+  end
+
   def feed
     @following_tweets = []
 

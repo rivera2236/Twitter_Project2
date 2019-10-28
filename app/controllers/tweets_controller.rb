@@ -24,13 +24,38 @@ class TweetsController < ApplicationController
   # POST /tweets
   # POST /tweets.json
   def create
-    @tweet = Tweet.new(tweet_params)
+    @tweet = Tweet.create(tweet_params)
+
+    message_arr = @tweet.message.split #holds each word of our tweet
+
+    message_arr.each_with_index do |word, index|
+      if word[0] == "#"
+        #create a new instance of a Tag
+        if Tag.pluck(:phrase).include?(word)
+          #save that Tag as a variable (to use in TweetTag creation)
+          #tag already exists
+          tag = Tag.find_by(phrase: word)
+        else
+          #create a new instance of Tag
+          #tag doesn't exist
+          tag = Tag.create(phrase: word)
+        end
+        
+        tweet_tag = TweetTag.create(tweet_id: @tweet.id, tag_id: tag.id)
+        message_arr[index] = "<a href='/tag_tweets?id=#{tag.id}'>#{word}</a>"
+      end
+    end
+
+    new_message = message_arr.join(" ")
+    @tweet.update(message: new_message)
 
     respond_to do |format|
       if @tweet.save
+        #save that Tag as a variable (to use in TweetTag creation)
         format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
         format.json { render :show, status: :created, location: @tweet }
       else
+        #create a new instance of Tag
         format.html { render :new }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
       end
