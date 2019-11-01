@@ -1,0 +1,37 @@
+<div class="row">
+  <% @users.each do |user| %>
+    <div class="col-md-3">
+      <div class="well user-list-wells" style="height: 200px;">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- THIS IS THE CODE FROM THE SLIDES. DIFFERS FROM THE CODE IN THE PROJECT. IMAGES ARE NOT SCALED -->
+                        <style type="text/css">
+                          img{width: 50px;}
+                        </style>
+            <%= image_tag user.avatar.url %>
+          </div>
+          <div class="col-md-6">
+            <p>
+              <% if current_user.following.include?(user.id) %>
+                <%= link_to "Following", unfollow_path(id: user.id), class: "btn btn-primary", id: "unfollow_btn" %>
+              <% else %>
+                <% if current_user.id != user.id %>
+                  <%= link_to "Follow", now_following_path(id: user.id), class: "btn btn-primary" %>
+                <% end %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <%= link_to show_user_path(id: user.id) do %>
+            <h3><%= user.name %></h3>
+            <p>@<%= user.username %></p>
+          <% end %>
+          <p>
+            <%= user.bio %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   root 'epicenter#feed'
   
   get 'tag_tweets' => 'epicenter#tag_tweets'
+  get 'all_users' => 'epicenter#all_users'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
