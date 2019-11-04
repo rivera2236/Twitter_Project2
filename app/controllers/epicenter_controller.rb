@@ -1,4 +1,25 @@
 class EpicenterController < ApplicationController
+  
+  def following
+    @user = User.find(params[:id])
+    @users = []
+    User.all.each do |potentially_following|
+      if @user.following.include?(potentially_following.id)
+        @users.push(potentially_following)
+      end
+    end
+  end
+
+  def followers
+    @user =  User.find(params[:id])
+    @users = []
+
+    User.all.each do |potentially_follower|
+      if potentially_follower.following.include?(@user.id)
+        @users.push(potentially_follower)
+      end
+    end
+  end
 
   def all_users
     @users = User.all

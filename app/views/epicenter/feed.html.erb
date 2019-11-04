@@ -5,7 +5,13 @@
 <div>	
     <% @following_tweets.each do |tweet| %>	
         <div class="well well-sm">	
-	    <p>@<%= tweet.user.username %></p>
+	    <p>
+	    	@<%= tweet.user.username %>
+		    • 
+			<%= time_ago_in_words(tweet.created_at) if Time.now - tweet.created_at < 86400 %> 
+			<%= tweet.created_at.strftime('%b%e') if Time.now - tweet.created_at > 86400 %> 	    		
+		</p>
+	  
 	    <p><%= tweet.message.html_safe %></p>
 	</div>
     <% end %>	
